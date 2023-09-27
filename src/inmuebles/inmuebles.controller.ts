@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Res, Next } from '@nestjs/common';
 import { InmueblesService } from './inmuebles.service';
 import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
+import { NextFunction, Request, Response } from 'express';
 
 @Controller('inmuebles')
 export class InmueblesController {
-  constructor(private readonly inmueblesService: InmueblesService) {}
+  constructor(private readonly inmueblesService: InmueblesService) { }
 
   @Post()
-  create(@Body() createInmuebleDto: CreateInmuebleDto) {
+  async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    response.status(400).json({})
     return this.inmueblesService.create(createInmuebleDto);
   }
 
   @Get()
-  findAll() {
+  async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    response.status(400).json({})
     return this.inmueblesService.findAll();
   }
 
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    response.status(400).json({})
     return this.inmueblesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInmuebleDto: UpdateInmuebleDto) {
+  async update(@Param('id') id: string, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    response.status(400).json({})
     return this.inmueblesService.update(+id, updateInmuebleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    response.status(400).json({})
     return this.inmueblesService.remove(+id);
   }
 }
