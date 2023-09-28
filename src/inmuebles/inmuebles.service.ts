@@ -4,23 +4,24 @@ import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
 
 @Injectable()
 export class InmueblesService {
-  create(createInmuebleDto: CreateInmuebleDto) {
+
+  async create(createInmuebleDto: CreateInmuebleDto) {
     return 'This action adds a new inmueble';
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all inmuebles`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} inmueble`;
   }
 
-  update(id: number, updateInmuebleDto: UpdateInmuebleDto) {
+  async update(id: number, updateInmuebleDto: UpdateInmuebleDto) {
     return `This action updates a #${id} inmueble`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} inmueble`;
   }
 }

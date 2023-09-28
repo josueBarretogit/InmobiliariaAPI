@@ -8,9 +8,13 @@ import { AsesoresModule } from './asesores/asesores.module';
 import { CiudadesModule } from './ciudades/ciudades.module';
 import { Asesor } from './asesores/entities/asesores.entity';
 import { Ciudad } from './ciudades/entities/ciudades.entity';
+import { CiudadesController } from './ciudades/ciudades.controller';
+import { AsesoresController } from './asesores/asesores.controller';
+import { InmueblesController } from './inmuebles/inmuebles.controller';
 
 @Module({
-  imports: [InmueblesModule,
+  imports: [
+    InmueblesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -23,7 +27,7 @@ import { Ciudad } from './ciudades/entities/ciudades.entity';
     }),
     AsesoresModule,
     CiudadesModule,],
-  controllers: [AppController],
+  controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],
   providers: [AppService],
 })
 

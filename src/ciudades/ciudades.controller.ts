@@ -1,34 +1,67 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Res, Next } from '@nestjs/common';
 import { CiudadesService } from './ciudades.service';
 import { CreateCiudadeDto } from './dto/create-ciudade.dto';
 import { UpdateCiudadeDto } from './dto/update-ciudade.dto';
 
+import { NextFunction, Request, Response } from 'express';
+
 @Controller('ciudades')
 export class CiudadesController {
-  constructor(private readonly ciudadesService: CiudadesService) {}
+  constructor(private readonly ciudadesService: CiudadesService) { }
 
   @Post()
-  create(@Body() createCiudadeDto: CreateCiudadeDto) {
-    return this.ciudadesService.create(createCiudadeDto);
+  async create(@Body() createInmuebleDto: CreateCiudadeDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    try {
+      response.status(400).json({})
+      return this.ciudadesService.create(createInmuebleDto);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({ "error": error })
+    }
   }
 
   @Get()
-  findAll() {
-    return this.ciudadesService.findAll();
+  async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    try {
+      response.status(400).json({})
+      return this.ciudadesService.findAll();
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({ "error": error })
+    }
   }
 
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ciudadesService.findOne(+id);
+  async findOne(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    try {
+      response.status(400).json({})
+      return this.ciudadesService.findOne(+id);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({ "error": error })
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCiudadeDto: UpdateCiudadeDto) {
-    return this.ciudadesService.update(+id, updateCiudadeDto);
+  async update(@Param('id') id: string, @Body() updateCiudadDto: UpdateCiudadeDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    try {
+      response.status(400).json({})
+      return this.ciudadesService.update(+id, updateCiudadDto);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({ "error": error })
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ciudadesService.remove(+id);
+  async remove(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
+    try {
+      response.status(400).json({})
+      return this.ciudadesService.remove(+id);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({ "error": error })
+    }
   }
 }

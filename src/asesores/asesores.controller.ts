@@ -12,32 +12,58 @@ export class AsesoresController {
 
   @Post()
   async create(@Body() createAsesoreDto: CreateAsesoreDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
-    response.status(400).json({})
-    return this.asesoresService.create(createAsesoreDto);
+    try {
+      response.status(400).json({})
+      return this.asesoresService.create(createAsesoreDto);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({})
+    }
   }
 
   @Get()
   async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
-    response.status(400).json({})
-    return this.asesoresService.findAll();
+    try {
+      response.status(400).json({})
+      return this.asesoresService.findAll();
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({})
+    }
   }
 
 
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
-    response.status(400).json({})
-    return this.asesoresService.findOne(+id);
+    try {
+      response.status(400).json({})
+      return this.asesoresService.findOne(+id);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({})
+    }
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() upadteAsesoreDto: UpdateAsesoreDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
-    response.status(400).json({})
-    return this.asesoresService.update(+id, upadteAsesoreDto);
+    try {
+      response.status(400).json({})
+      return this.asesoresService.update(+id, upadteAsesoreDto);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({})
+    }
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
-    response.status(400).json({})
-    return this.asesoresService.remove(+id);
+    try {
+      response.status(400).json({})
+      return this.asesoresService.remove(+id);
+    } catch (error) {
+      console.log(error)
+      response.status(400).json({})
+    }
   }
+
 }
