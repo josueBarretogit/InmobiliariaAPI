@@ -7,10 +7,14 @@ export class Inmueble {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => Asesor, (asesor) => asesor.inmueble)
+  @ManyToOne((type) => Asesor, (asesor) => asesor.inmueble, {
+    eager: true,
+  })
   asesor: Relation<Asesor>
 
-  @ManyToOne((type) => Ciudad, (ciudad) => ciudad.inmueble)
+  @ManyToOne((type) => Ciudad, (ciudad) => ciudad.inmueble, {
+    eager: true
+  })
   ciudad: Relation<Ciudad>
 
   @Column({ type: 'varchar', length: 30, unique: true })
