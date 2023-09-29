@@ -44,10 +44,10 @@ export class InmueblesController {
 
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
     try {
 
-      const inmueble = await this.inmueblesService.findOne(+id);
+      const inmueble = await this.inmueblesService.findOne(id);
       response.status(HttpStatus.FOUND).json({ inmueble: inmueble })
       return
 
@@ -77,10 +77,10 @@ export class InmueblesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
     try {
 
-      const deletedInmueble = await this.inmueblesService.remove(+id);
+      const deletedInmueble = await this.inmueblesService.remove(id);
       response.status(HttpStatus.RESET_CONTENT).json({ deletedInmueble: deletedInmueble })
       return
     } catch (error) {

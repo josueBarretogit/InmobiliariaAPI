@@ -11,6 +11,9 @@ import { Ciudad } from './ciudades/entities/ciudades.entity';
 import { CiudadesController } from './ciudades/ciudades.controller';
 import { AsesoresController } from './asesores/asesores.controller';
 import { InmueblesController } from './inmuebles/inmuebles.controller';
+import { CiudadesService } from './ciudades/ciudades.service';
+import { InmueblesService } from './inmuebles/inmuebles.service';
+import { AsesoresService } from './asesores/asesores.service';
 
 @Module({
   imports: [
@@ -29,7 +32,7 @@ import { InmueblesController } from './inmuebles/inmuebles.controller';
     AsesoresModule,
     CiudadesModule,],
   controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],
-  providers: [AppService],
+  providers: [AppService, CiudadesService, InmueblesService, AsesoresService],
 })
 
 export class AppModule { }
