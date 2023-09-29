@@ -6,6 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 
 @Controller('inmuebles')
 export class InmueblesController {
+
   constructor(private readonly inmueblesService: InmueblesService) { }
 
   @Post()
@@ -22,7 +23,7 @@ export class InmueblesController {
   @Get()
   async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
     try {
-      response.status(HttpStatus.CREATED).json({})
+      response.status(HttpStatus.OK).json({})
       return this.inmueblesService.findAll();
     } catch (error) {
       console.log(error)
@@ -34,7 +35,7 @@ export class InmueblesController {
   @Get(':id')
   async findOne(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
     try {
-      response.status(HttpStatus.CREATED).json({})
+      response.status(HttpStatus.FOUND).json({})
       return this.inmueblesService.findOne(+id);
     } catch (error) {
       console.log(error)
@@ -45,7 +46,7 @@ export class InmueblesController {
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
     try {
-      response.status(HttpStatus.CREATED).json({})
+      response.status(HttpStatus.RESET_CONTENT).json({})
       return this.inmueblesService.update(+id, updateInmuebleDto);
     } catch (error) {
       console.log(error)
@@ -56,7 +57,7 @@ export class InmueblesController {
   @Delete(':id')
   async remove(@Param('id') id: string, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<string> {
     try {
-      response.status(HttpStatus.CREATED).json({})
+      response.status(HttpStatus.RESET_CONTENT).json({})
       return this.inmueblesService.remove(+id);
     } catch (error) {
       console.log(error)
