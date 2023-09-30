@@ -13,13 +13,15 @@ export class InmueblesController {
   @Post('/create')
   async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
 
-    if (!(createInmuebleDto instanceof CreateInmuebleDto)) {
-      response.status(HttpStatus.NOT_FOUND).json({ response: "El cuerpo de la peticion es invalido" })
-      return
-    }
-
+    const dataReceived = JSON.stringify(createInmuebleDto)
+    const model = JSON.stringify(new CreateInmuebleDto())
+    console.log(dataReceived)
+    console.log(model)
     try {
-      const inmuebleCreated = await this.inmueblesService.create(createInmuebleDto);
+
+
+      console.log(createInmuebleDto)
+      const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);
 
       response.status(HttpStatus.CREATED).json({ response: "Inmueble creado", datos: inmuebleCreated })
       return

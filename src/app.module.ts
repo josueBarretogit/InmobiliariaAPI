@@ -17,7 +17,6 @@ import { AsesoresService } from './asesores/asesores.service';
 
 @Module({
   imports: [
-    InmueblesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -29,6 +28,7 @@ import { AsesoresService } from './asesores/asesores.service';
       retryAttempts: 2,
       autoLoadEntities: true,
     }),
+    InmueblesModule,
     AsesoresModule,
     CiudadesModule,],
   controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],

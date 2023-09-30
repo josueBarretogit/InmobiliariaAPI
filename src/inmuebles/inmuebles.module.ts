@@ -8,5 +8,6 @@ import { Inmueble } from './entities/inmueble.entity';
   imports: [TypeOrmModule.forFeature([Inmueble])],
   controllers: [InmueblesController],
   providers: [InmueblesService],
+  exports: [TypeOrmModule]
 })
 export class InmueblesModule { }

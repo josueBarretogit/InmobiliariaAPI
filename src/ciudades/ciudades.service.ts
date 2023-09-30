@@ -15,7 +15,7 @@ export class CiudadesService {
   //   }
   // }
 
-  constructor(@InjectRepository(Ciudad) private readonly ciudadRepository: Repository<Ciudad>) { }
+  constructor(@InjectRepository(Ciudad) private ciudadRepository: Repository<Ciudad>) { }
 
   async create(createCiudadDto: CreateCiudadeDto): Promise<Ciudad> {
     return this.ciudadRepository.save(createCiudadDto)
