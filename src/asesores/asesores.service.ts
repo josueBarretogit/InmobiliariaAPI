@@ -26,7 +26,7 @@ export class AsesoresService {
   }
 
   async findOne(id: number): Promise<Asesor> {
-    return this.asesorRepository.findOneBy({ id })
+    return this.asesorRepository.findOneByOrFail({ id })
   }
 
   async update(id: number, updateAsesorDto: UpdateAsesoreDto): Promise<Asesor> {

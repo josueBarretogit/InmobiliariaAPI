@@ -4,5 +4,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateCiudadeDto extends PartialType(CreateCiudadeDto) {
   @ApiProperty()
-  id: string
+  nombre: string
+
+  @ApiProperty()
+  barrio: string
+
+  @ApiProperty()
+  departamento: string
 }

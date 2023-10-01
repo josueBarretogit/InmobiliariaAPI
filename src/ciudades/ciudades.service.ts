@@ -26,7 +26,7 @@ export class CiudadesService {
   }
 
   async findOne(id: number): Promise<Ciudad> {
-    return this.ciudadRepository.findOneBy({ id })
+    return this.ciudadRepository.findOneByOrFail({ id })
   }
 
   async update(id: number, updateCiudadDto: UpdateCiudadeDto): Promise<Ciudad> {

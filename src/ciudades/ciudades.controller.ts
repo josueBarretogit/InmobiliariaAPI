@@ -13,7 +13,7 @@ export class CiudadesController {
 
   constructor(private ciudadesService: CiudadesService) { }
 
-  @Post()
+  @Post('createCiudad')
   async create(@Body() createInmuebleDto: CreateCiudadeDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Ciudad> {
     try {
       response.status(HttpStatus.CREATED).json({ response: "ejecutado" })

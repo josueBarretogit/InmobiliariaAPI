@@ -26,7 +26,7 @@ export class InmueblesService {
   }
 
   async findOne(id: number): Promise<Inmueble> {
-    return this.inmuebleRepository.findOneBy({ id: id })
+    return this.inmuebleRepository.findOneByOrFail({ id: id })
   }
 
   async update(id: number, updateInmuebleDto: UpdateInmuebleDto): Promise<Inmueble> {

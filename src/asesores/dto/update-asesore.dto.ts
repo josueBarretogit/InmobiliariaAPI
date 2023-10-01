@@ -5,5 +5,14 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateAsesoreDto extends PartialType(CreateAsesoreDto) {
 
   @ApiProperty()
-  id: string
+  nombre: string
+
+  @ApiProperty()
+  correo: string
+
+  @ApiProperty()
+  apellidos: string
+
+  @ApiProperty()
+  telefono: string
 }

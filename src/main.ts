@@ -10,7 +10,7 @@ async function bootstrap() {
     .setTitle('InmueblesAPI')
     .setDescription('Prueba inmuebles api')
     .setVersion('1.0')
-    .addTag('inmubles')
+    .addTag('Inmuebles')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
