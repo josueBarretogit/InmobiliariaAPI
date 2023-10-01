@@ -4,8 +4,11 @@ import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
 import { NextFunction, Request, Response } from 'express';
 import { Inmueble } from './entities/inmueble.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Inmuebles')
 @Controller('inmuebles')
+
 export class InmueblesController {
 
   constructor(private readonly inmueblesService: InmueblesService) { }
@@ -13,12 +16,7 @@ export class InmueblesController {
   @Post('/create')
   async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
 
-    const dataReceived = JSON.stringify(createInmuebleDto)
-    const model = JSON.stringify(new CreateInmuebleDto())
-    console.log(dataReceived)
-    console.log(model)
     try {
-
 
       console.log(createInmuebleDto)
       const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);

@@ -5,7 +5,9 @@ import { UpdateCiudadeDto } from './dto/update-ciudade.dto';
 
 import { NextFunction, Request, Response } from 'express';
 import { Ciudad } from './entities/ciudades.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Ciudades')
 @Controller('ciudades')
 export class CiudadesController {
 

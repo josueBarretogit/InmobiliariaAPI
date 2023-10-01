@@ -5,7 +5,9 @@ import { UpdateAsesoreDto } from './dto/update-asesore.dto';
 
 import { NextFunction, Request, Response } from 'express';
 import { Asesor } from './entities/asesores.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Asesores')
 @Controller('asesores')
 export class AsesoresController {
 
