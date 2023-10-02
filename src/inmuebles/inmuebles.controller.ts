@@ -2,10 +2,12 @@ import { Controller, HttpStatus, Get, Post, Body, Patch, Param, Delete, Req, Res
 import { InmueblesService } from './inmuebles.service';
 import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { Inmueble } from './entities/inmueble.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CiudadesService } from 'src/ciudades/ciudades.service';
+import { createMap } from '@automapper/core';
+import { mapper } from 'src/automapper/automapper';
 
 @ApiTags('Inmuebles')
 @Controller('inmuebles')
@@ -14,24 +16,25 @@ export class InmueblesController {
   constructor(private readonly inmueblesService: InmueblesService, private readonly ciudadService: CiudadesService) { }
 
   @Post('/create')
-  async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
 
     try {
 
       const ciudadRelatedToInmueble = await this.ciudadService.findOne(createInmuebleDto.ciudadId)
       const inmuebleToCreate = new Inmueble()
 
-      inmuebleToCreate.area = createInmuebleDto.area
-      inmuebleToCreate.codigo = createInmuebleDto.codigo
-      inmuebleToCreate.precio = createInmuebleDto.precio
-      inmuebleToCreate.numBanos = createInmuebleDto.numBanos
-      inmuebleToCreate.tipoInmueble = createInmuebleDto.tipoInmueble
-      inmuebleToCreate.estadoInmueble = createInmuebleDto.estadoInmueble
-      inmuebleToCreate.numParqueadero = createInmuebleDto.numParqueadero
-      inmuebleToCreate.numHabitaciones = createInmuebleDto.numHabitaciones
+
+      const dto = mapper.map(inmuebleToCreate, Inmueble, CreateInmuebleDto)
+
+      console.log(dto)
+
+      console.log(inmuebleToCreate)
+
+      console.log(createInmuebleDto)
+
       inmuebleToCreate.ciudad = ciudadRelatedToInmueble
 
-      const inmuebleCreated: Inmueble = await this.inmueblesService.create(inmuebleToCreate);
+      const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);
 
       response.status(HttpStatus.CREATED).json({ response: "Inmueble creado", datos: inmuebleCreated })
       return
@@ -43,7 +46,7 @@ export class InmueblesController {
   }
 
   @Get('/allInmuebles')
-  async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble[]> {
+  async findAll(@Req() request: Request, @Res() response: Response): Promise<Inmueble[]> {
     try {
       const inmuebles = await this.inmueblesService.findAll();
       response.status(HttpStatus.OK).json({ inmuebles: inmuebles })
@@ -56,7 +59,7 @@ export class InmueblesController {
 
 
   @Get(':id')
-  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
     try {
 
       const inmueble = await this.inmueblesService.findOne(id);
@@ -70,7 +73,7 @@ export class InmueblesController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async update(@Param('id') id: number, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
 
     if (!(updateInmuebleDto instanceof UpdateInmuebleDto)) {
       response.status(HttpStatus.NOT_FOUND).json({ response: "El cuerpo de la peticion es invalido" })
@@ -89,7 +92,7 @@ export class InmueblesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
+  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
     try {
 
       const deletedInmueble = await this.inmueblesService.remove(id);

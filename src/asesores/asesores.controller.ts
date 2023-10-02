@@ -14,7 +14,7 @@ export class AsesoresController {
   constructor(private readonly asesoresService: AsesoresService) { }
 
   @Post('/createAsesor')
-  async create(@Body() createAsesoreDto: CreateAsesoreDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Asesor> {
+  async create(@Body() createAsesoreDto: CreateAsesoreDto, @Req() request: Request, @Res() response: Response): Promise<Asesor> {
 
     if (!createAsesoreDto) {
       response.status(HttpStatus.BAD_REQUEST).json({ response: "Cuerpo no valido" })
@@ -37,7 +37,7 @@ export class AsesoresController {
   }
 
   @Get('/getAsesores')
-  async findAll(@Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Asesor[]> {
+  async findAll(@Req() request: Request, @Res() response: Response): Promise<Asesor[]> {
 
     try {
       const asesores = await this.asesoresService.findAll();
@@ -53,7 +53,7 @@ export class AsesoresController {
 
 
   @Get(':id')
-  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Asesor> {
+  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Asesor> {
 
     if (!id) {
       response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor " })
@@ -71,7 +71,7 @@ export class AsesoresController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateAsesoreDto: UpdateAsesoreDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Asesor> {
+  async update(@Param('id') id: number, @Body() updateAsesoreDto: UpdateAsesoreDto, @Req() request: Request, @Res() response: Response): Promise<Asesor> {
 
     if (!id || !updateAsesoreDto) {
       response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor a editar" })
@@ -93,7 +93,7 @@ export class AsesoresController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Asesor> {
+  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Asesor> {
 
     if (!id) {
       response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor a remover" })
