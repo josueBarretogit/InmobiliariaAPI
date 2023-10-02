@@ -10,7 +10,14 @@ export class Ciudad {
   @Column({ type: 'varchar', length: 30, unique: true })
   nombre: string;
 
-  @OneToMany(() => Inmueble, (inmueble) => inmueble.ciudad)
+  @Column({ type: 'varchar', length: 30 })
+  barrio: string;
+
+  @Column({ type: 'varchar', length: 30 })
+  departamento: string;
+
+  @OneToMany((type) => Inmueble, (inmueble) => inmueble.ciudad)
   inmueble: Relation<Inmueble>[]
+
 }
 

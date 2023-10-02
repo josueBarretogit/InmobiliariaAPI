@@ -4,6 +4,7 @@ import { PrimaryGeneratedColumn, Column, Entity, OneToMany, Relation, ManyToOne 
 
 @Entity({ name: 'inmueble' })
 export class Inmueble {
+
   @PrimaryGeneratedColumn()
   id: number;
 

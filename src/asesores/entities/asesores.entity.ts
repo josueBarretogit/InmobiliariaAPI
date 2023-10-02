@@ -19,7 +19,7 @@ export class Asesor {
   @Column({ type: 'varchar', length: 30 })
   telefono: string;
 
-  @OneToMany(() => Inmueble, (inmueble) => inmueble.asesor)
+  @OneToMany((type) => Inmueble, (inmueble) => inmueble.asesor)
   inmueble: Relation<Inmueble>[]
 
 }

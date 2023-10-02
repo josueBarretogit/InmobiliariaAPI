@@ -17,7 +17,7 @@ export class InmueblesService {
 
   constructor(@InjectRepository(Inmueble) private readonly inmuebleRepository: Repository<Inmueble>) { }
 
-  async create(createInmuebleDto: CreateInmuebleDto): Promise<Inmueble> {
+  async create(createInmuebleDto: CreateInmuebleDto | Inmueble): Promise<Inmueble> {
     return this.inmuebleRepository.save(createInmuebleDto)
   }
 

@@ -5,21 +5,33 @@ import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
 import { NextFunction, Request, Response } from 'express';
 import { Inmueble } from './entities/inmueble.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { CiudadesService } from 'src/ciudades/ciudades.service';
 
 @ApiTags('Inmuebles')
 @Controller('inmuebles')
-
 export class InmueblesController {
 
-  constructor(private readonly inmueblesService: InmueblesService) { }
+  constructor(private readonly inmueblesService: InmueblesService, private readonly ciudadService: CiudadesService) { }
 
   @Post('/create')
   async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response, @Next() next: NextFunction): Promise<Inmueble> {
 
     try {
 
-      console.log(createInmuebleDto)
-      const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);
+      const ciudadRelatedToInmueble = await this.ciudadService.findOne(createInmuebleDto.ciudadId)
+      const inmuebleToCreate = new Inmueble()
+
+      inmuebleToCreate.area = createInmuebleDto.area
+      inmuebleToCreate.codigo = createInmuebleDto.codigo
+      inmuebleToCreate.precio = createInmuebleDto.precio
+      inmuebleToCreate.numBanos = createInmuebleDto.numBanos
+      inmuebleToCreate.tipoInmueble = createInmuebleDto.tipoInmueble
+      inmuebleToCreate.estadoInmueble = createInmuebleDto.estadoInmueble
+      inmuebleToCreate.numParqueadero = createInmuebleDto.numParqueadero
+      inmuebleToCreate.numHabitaciones = createInmuebleDto.numHabitaciones
+      inmuebleToCreate.ciudad = ciudadRelatedToInmueble
+
+      const inmuebleCreated: Inmueble = await this.inmueblesService.create(inmuebleToCreate);
 
       response.status(HttpStatus.CREATED).json({ response: "Inmueble creado", datos: inmuebleCreated })
       return
