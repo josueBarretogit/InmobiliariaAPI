@@ -29,13 +29,20 @@ export class InmueblesController {
       const asesorRelatedToInmueble = await this.asesorService.findOne(createInmuebleDto.asesorId)
       const inmuebleToCreate = new Inmueble()
 
-      const dto = mapper.map(inmuebleToCreate, Inmueble, CreateInmuebleDto)
+      const prueba = new CreateInmuebleDto()
+      prueba.area = createInmuebleDto.area
+      prueba.codigo = createInmuebleDto.codigo
 
-      inmuebleToCreate.ciudad = ciudadRelatedToInmueble
-      inmuebleToCreate.asesor = asesorRelatedToInmueble
+      const dto = mapper.map(createInmuebleDto, CreateInmuebleDto, Inmueble)
 
+      dto.ciudad = ciudadRelatedToInmueble
+      dto.asesor = asesorRelatedToInmueble
 
-      const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);
+      console.log(dto)
+
+      console.log(createInmuebleDto)
+
+      const inmuebleCreated: Inmueble = await this.inmueblesService.create(dto);
 
       response.status(HttpStatus.CREATED).json({ response: "Inmueble creado", datos: inmuebleCreated })
       return

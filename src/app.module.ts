@@ -14,6 +14,11 @@ import { InmueblesController } from './inmuebles/inmuebles.controller';
 import { CiudadesService } from './ciudades/ciudades.service';
 import { InmueblesService } from './inmuebles/inmuebles.service';
 import { AsesoresService } from './asesores/asesores.service';
+import { createMap } from '@automapper/core';
+import { mapper } from './automapper/automapper';
+import { CreateInmuebleDto } from './inmuebles/dto/create-inmueble.dto';
+
+createMap(mapper, CreateInmuebleDto, Inmueble)
 
 @Module({
   imports: [
