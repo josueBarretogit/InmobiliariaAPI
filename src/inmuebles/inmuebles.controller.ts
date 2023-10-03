@@ -6,33 +6,34 @@ import { Request, Response } from 'express';
 import { Inmueble } from './entities/inmueble.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CiudadesService } from 'src/ciudades/ciudades.service';
-import { createMap } from '@automapper/core';
 import { mapper } from 'src/automapper/automapper';
+import { AsesoresService } from 'src/asesores/asesores.service';
 
 @ApiTags('Inmuebles')
 @Controller('inmuebles')
 export class InmueblesController {
 
-  constructor(private readonly inmueblesService: InmueblesService, private readonly ciudadService: CiudadesService) { }
+  constructor(private readonly inmueblesService: InmueblesService, private readonly ciudadService: CiudadesService, private readonly asesorService: AsesoresService) { }
 
   @Post('/create')
-  async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
+  async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
+
+    if (!createInmuebleDto) {
+      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se envió datos" })
+      return
+    }
 
     try {
 
       const ciudadRelatedToInmueble = await this.ciudadService.findOne(createInmuebleDto.ciudadId)
+      const asesorRelatedToInmueble = await this.asesorService.findOne(createInmuebleDto.asesorId)
       const inmuebleToCreate = new Inmueble()
-
 
       const dto = mapper.map(inmuebleToCreate, Inmueble, CreateInmuebleDto)
 
-      console.log(dto)
-
-      console.log(inmuebleToCreate)
-
-      console.log(createInmuebleDto)
-
       inmuebleToCreate.ciudad = ciudadRelatedToInmueble
+      inmuebleToCreate.asesor = asesorRelatedToInmueble
+
 
       const inmuebleCreated: Inmueble = await this.inmueblesService.create(createInmuebleDto);
 
@@ -46,7 +47,8 @@ export class InmueblesController {
   }
 
   @Get('/allInmuebles')
-  async findAll(@Req() request: Request, @Res() response: Response): Promise<Inmueble[]> {
+  async findAll(@Req() request: Request, @Res() response: Response): Promise<Inmueble[] | undefined> {
+
     try {
       const inmuebles = await this.inmueblesService.findAll();
       response.status(HttpStatus.OK).json({ inmuebles: inmuebles })
@@ -59,7 +61,13 @@ export class InmueblesController {
 
 
   @Get(':id')
-  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
+  async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
+
+    if (!id) {
+      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble" })
+      return
+    }
+
     try {
 
       const inmueble = await this.inmueblesService.findOne(id);
@@ -73,10 +81,10 @@ export class InmueblesController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
+  async update(@Param('id') id: number, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
 
-    if (!(updateInmuebleDto instanceof UpdateInmuebleDto)) {
-      response.status(HttpStatus.NOT_FOUND).json({ response: "El cuerpo de la peticion es invalido" })
+    if (!id || !updateInmuebleDto) {
+      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble a Actualizar" })
       return
     }
 
@@ -92,7 +100,13 @@ export class InmueblesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble> {
+  async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
+
+    if (!id) {
+      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble a eliminar" })
+      return
+    }
+
     try {
 
       const deletedInmueble = await this.inmueblesService.remove(id);
