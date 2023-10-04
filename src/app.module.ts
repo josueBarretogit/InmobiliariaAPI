@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InmueblesModule } from './inmuebles/inmuebles.module';
@@ -17,6 +17,8 @@ import { AsesoresService } from './asesores/asesores.service';
 import { createMap } from '@automapper/core';
 import { mapper } from './automapper/automapper';
 import { CreateInmuebleDto } from './inmuebles/dto/create-inmueble.dto';
+import { VerifyMiddleware } from './middleware/verify.middleware';
+import { AuthorizationModule } from './authorization/authorization.module';
 
 createMap(mapper, CreateInmuebleDto, Inmueble)
 
@@ -35,9 +37,22 @@ createMap(mapper, CreateInmuebleDto, Inmueble)
     }),
     InmueblesModule,
     AsesoresModule,
-    CiudadesModule,],
+    CiudadesModule,
+    AuthorizationModule,],
   controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],
   providers: [AppService, CiudadesService, InmueblesService, AsesoresService],
 })
 
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(VerifyMiddleware)
+      .exclude(
+        { path: 'Inmuebles', method: RequestMethod.GET },
+        { path: 'asesores', method: RequestMethod.GET },
+        { path: 'ciudades', method: RequestMethod.GET },
+      )
+      .forRoutes(InmueblesController, AsesoresController, CiudadesController)
+
+  }
+}

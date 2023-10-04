@@ -27,22 +27,15 @@ export class InmueblesController {
 
       const ciudadRelatedToInmueble = await this.ciudadService.findOne(createInmuebleDto.ciudadId)
       const asesorRelatedToInmueble = await this.asesorService.findOne(createInmuebleDto.asesorId)
-      const inmuebleToCreate = new Inmueble()
 
-      const prueba = new CreateInmuebleDto()
-      prueba.area = createInmuebleDto.area
-      prueba.codigo = createInmuebleDto.codigo
+      const inmuebleToCreate = mapper.map(createInmuebleDto, CreateInmuebleDto, Inmueble)
 
-      const dto = mapper.map(createInmuebleDto, CreateInmuebleDto, Inmueble)
+      inmuebleToCreate.ciudad = ciudadRelatedToInmueble
+      inmuebleToCreate.asesor = asesorRelatedToInmueble
 
-      dto.ciudad = ciudadRelatedToInmueble
-      dto.asesor = asesorRelatedToInmueble
+      console.log(inmuebleToCreate)
 
-      console.log(dto)
-
-      console.log(createInmuebleDto)
-
-      const inmuebleCreated: Inmueble = await this.inmueblesService.create(dto);
+      const inmuebleCreated: Inmueble = await this.inmueblesService.create(inmuebleToCreate);
 
       response.status(HttpStatus.CREATED).json({ response: "Inmueble creado", datos: inmuebleCreated })
       return
@@ -53,7 +46,7 @@ export class InmueblesController {
     }
   }
 
-  @Get('/allInmuebles')
+  @Get()
   async findAll(@Req() request: Request, @Res() response: Response): Promise<Inmueble[] | undefined> {
 
     try {

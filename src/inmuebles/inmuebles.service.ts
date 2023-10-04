@@ -1,19 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
-import { DataSource, DeepPartial, FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Inmueble } from './entities/inmueble.entity';
 
 @Injectable()
 export class InmueblesService {
-
-  // private readonly relations: {
-  //   relations: {
-  //     asesor: true,
-  //     ciudad: true
-  //   }
-  // }
 
   constructor(@InjectRepository(Inmueble) private readonly inmuebleRepository: Repository<Inmueble>) { }
 
@@ -26,7 +19,7 @@ export class InmueblesService {
   }
 
   async findOne(id: number): Promise<Inmueble> {
-    return this.inmuebleRepository.findOneByOrFail({ id: id })
+    return this.inmuebleRepository.findOneByOrFail({ id })
   }
 
   async update(id: number, updateInmuebleDto: UpdateInmuebleDto): Promise<Inmueble> {
