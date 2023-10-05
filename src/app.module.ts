@@ -43,16 +43,6 @@ createMap(mapper, CreateInmuebleDto, Inmueble)
   providers: [AppService, CiudadesService, InmueblesService, AsesoresService],
 })
 
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(VerifyMiddleware)
-      .exclude(
-        { path: 'Inmuebles', method: RequestMethod.GET },
-        { path: 'asesores', method: RequestMethod.GET },
-        { path: 'ciudades', method: RequestMethod.GET },
-      )
-      .forRoutes(InmueblesController, AsesoresController, CiudadesController)
+export class AppModule {
 
-  }
 }

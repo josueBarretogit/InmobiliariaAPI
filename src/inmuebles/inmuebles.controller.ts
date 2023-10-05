@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, Get, Post, Body, Patch, Param, Delete, Req, Res, Next } from '@nestjs/common';
+import { Controller, HttpStatus, Get, Post, Body, Patch, Param, Delete, Req, Res } from '@nestjs/common';
 import { InmueblesService } from './inmuebles.service';
 import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
@@ -17,11 +17,6 @@ export class InmueblesController {
 
   @Post('/create')
   async create(@Body() createInmuebleDto: CreateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
-
-    if (!createInmuebleDto) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se envió datos" })
-      return
-    }
 
     try {
 
@@ -63,11 +58,6 @@ export class InmueblesController {
   @Get(':id')
   async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
 
-    if (!id) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble" })
-      return
-    }
-
     try {
 
       const inmueble = await this.inmueblesService.findOne(id);
@@ -83,11 +73,6 @@ export class InmueblesController {
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateInmuebleDto: UpdateInmuebleDto, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
 
-    if (!id || !updateInmuebleDto) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble a Actualizar" })
-      return
-    }
-
     try {
 
       const updatedInmueble = await this.inmueblesService.update(id, updateInmuebleDto);
@@ -101,11 +86,6 @@ export class InmueblesController {
 
   @Delete(':id')
   async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Inmueble | undefined> {
-
-    if (!id) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el inmueble a eliminar" })
-      return
-    }
 
     try {
 

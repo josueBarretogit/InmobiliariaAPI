@@ -15,16 +15,6 @@ export class AsesoresController {
   @Post('/createAsesor')
   async create(@Body() createAsesoreDto: CreateAsesoreDto, @Req() request: Request, @Res() response: Response): Promise<Asesor | undefined> {
 
-    if (!createAsesoreDto) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "Cuerpo no valido" })
-      return
-    }
-
-    if (!createAsesoreDto) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "Cuerpo de la peticion no valido" })
-      return
-    }
-
     try {
       const asesorCreated = await this.asesoresService.create(createAsesoreDto);
       response.status(HttpStatus.CREATED).json({ asesorCreated })
@@ -52,11 +42,6 @@ export class AsesoresController {
   @Get(':id')
   async findOne(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Asesor | undefined> {
 
-    if (!id) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor " })
-      return
-    }
-
     try {
       const asesor = await this.asesoresService.findOne(id);
       response.status(HttpStatus.OK).json({ asesor })
@@ -69,11 +54,6 @@ export class AsesoresController {
 
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateAsesoreDto: UpdateAsesoreDto, @Req() request: Request, @Res() response: Response): Promise<Asesor | undefined> {
-
-    if (!id || !updateAsesoreDto) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor a editar" })
-      return
-    }
 
     try {
 
@@ -90,11 +70,6 @@ export class AsesoresController {
 
   @Delete(':id')
   async remove(@Param('id') id: number, @Req() request: Request, @Res() response: Response): Promise<Asesor | undefined> {
-
-    if (!id) {
-      response.status(HttpStatus.BAD_REQUEST).json({ response: "No se encontro el asesor a remover" })
-      return
-    }
 
     try {
 
