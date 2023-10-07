@@ -1,6 +1,6 @@
 import { AutoMap } from "@automapper/classes"
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNotEmpty } from "class-validator/types/decorator/decorators"
+import { IsNotEmpty } from "class-validator"
 
 export class CreateInmuebleDto {
 
@@ -45,6 +45,7 @@ export class CreateInmuebleDto {
   @AutoMap()
   @ApiProperty()
   @IsNotEmpty()
+
   tipoInmueble: 'arriendo' | 'venta'
 
   @AutoMap()

@@ -28,7 +28,6 @@ export class InmueblesController {
       inmuebleToCreate.ciudad = ciudadRelatedToInmueble
       inmuebleToCreate.asesor = asesorRelatedToInmueble
 
-      console.log(inmuebleToCreate)
 
       const inmuebleCreated: Inmueble = await this.inmueblesService.create(inmuebleToCreate);
 
@@ -61,7 +60,7 @@ export class InmueblesController {
     try {
 
       const inmueble = await this.inmueblesService.findOne(id);
-      response.status(HttpStatus.FOUND).json({ inmueble: inmueble })
+      response.status(HttpStatus.OK).json({ inmueble: inmueble })
       return
 
     } catch (error) {
