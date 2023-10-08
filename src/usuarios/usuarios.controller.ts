@@ -16,7 +16,9 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
 import { Request, Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Usuarios')
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuarioService: UsuariosService) {}
@@ -54,14 +56,14 @@ export class UsuariosController {
     }
   }
 
-  @Get(':id')
+  @Get(':correo')
   async findOne(
-    @Param('id') id: number,
+    @Param('correo') correo: string,
     @Req() request: Request,
     @Res() response: Response,
   ): Promise<Usuario | undefined> {
     try {
-      const usuario = await this.usuarioService.findOne(id);
+      const usuario = await this.usuarioService.findOne(correo);
       response.status(HttpStatus.OK).json({ usuario });
       return usuario;
     } catch (error) {
@@ -70,16 +72,16 @@ export class UsuariosController {
     }
   }
 
-  @Patch(':id')
+  @Patch(':correo')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('correo') correo: string,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
     @Req() request: Request,
     @Res() response: Response,
   ): Promise<Usuario | undefined> {
     try {
       const usuarioToUpdate = await this.usuarioService.update(
-        id,
+        correo,
         updateUsuarioDto,
       );
 
@@ -91,14 +93,14 @@ export class UsuariosController {
     }
   }
 
-  @Delete(':id')
+  @Delete(':correo')
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('correo') correo: string,
     @Req() request: Request,
     @Res() response: Response,
   ): Promise<Usuario | undefined> {
     try {
-      const usuarioToRemove = await this.usuarioService.remove(id);
+      const usuarioToRemove = await this.usuarioService.remove(correo);
       response.status(HttpStatus.CREATED).json({ usuarioToRemove });
       return usuarioToRemove;
     } catch (error) {

@@ -16,7 +16,15 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const usuarioPayload = { id: usuario.id, correo: usuario.correo };
+    return { access_token: await this.jwtService.signAsync(usuarioPayload) };
+  }
 
+  async signUp(correo: string, contrasena: string): Promise<any> {
+    const usuario: Usuario = await this.usuarioService.findOne(correo);
+    if (usuario?.contrasena !== contrasena) {
+      throw new UnauthorizedException();
+    }
+    const usuarioPayload = { id: usuario.id, correo: usuario.correo };
     return { access_token: await this.jwtService.signAsync(usuarioPayload) };
   }
 }
