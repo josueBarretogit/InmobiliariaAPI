@@ -1,16 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateCiudadeDto {
+export class CreateUsuarioDto {
   @ApiProperty()
   @IsNotEmpty()
-  nombre: string;
+  correo: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  barrio: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  departamento: string;
+  contrasena: string;
 }

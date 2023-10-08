@@ -19,6 +19,7 @@ import { mapper } from './automapper/automapper';
 import { CreateInmuebleDto } from './inmuebles/dto/create-inmueble.dto';
 import { VerifyMiddleware } from './middleware/verify.middleware';
 import { AuthorizationModule } from './authorization/authorization.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 createMap(mapper, CreateInmuebleDto, Inmueble)
 
@@ -38,7 +39,8 @@ createMap(mapper, CreateInmuebleDto, Inmueble)
     InmueblesModule,
     AsesoresModule,
     CiudadesModule,
-    AuthorizationModule,],
+    AuthorizationModule,
+    UsuariosModule,],
   controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],
   providers: [AppService, CiudadesService, InmueblesService, AsesoresService],
 })
