@@ -15,6 +15,7 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import { UsuariosService } from './usuarios.service';
+import { Request, Response } from 'express';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -81,6 +82,7 @@ export class UsuariosController {
         id,
         updateUsuarioDto,
       );
+
       response.status(HttpStatus.OK).json({ usuarioToUpdate });
       return usuarioToUpdate;
     } catch (error) {

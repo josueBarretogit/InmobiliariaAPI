@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InmueblesModule } from './inmuebles/inmuebles.module';
@@ -6,8 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Inmueble } from './inmuebles/entities/inmueble.entity';
 import { AsesoresModule } from './asesores/asesores.module';
 import { CiudadesModule } from './ciudades/ciudades.module';
-import { Asesor } from './asesores/entities/asesores.entity';
-import { Ciudad } from './ciudades/entities/ciudades.entity';
 import { CiudadesController } from './ciudades/ciudades.controller';
 import { AsesoresController } from './asesores/asesores.controller';
 import { InmueblesController } from './inmuebles/inmuebles.controller';
@@ -18,10 +21,11 @@ import { createMap } from '@automapper/core';
 import { mapper } from './automapper/automapper';
 import { CreateInmuebleDto } from './inmuebles/dto/create-inmueble.dto';
 import { VerifyMiddleware } from './middleware/verify.middleware';
-import { AuthorizationModule } from './authorization/authorization.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
+import { UsuariosService } from './usuarios/usuarios.service';
 
-createMap(mapper, CreateInmuebleDto, Inmueble)
+createMap(mapper, CreateInmuebleDto, Inmueble);
 
 @Module({
   imports: [
@@ -39,12 +43,21 @@ createMap(mapper, CreateInmuebleDto, Inmueble)
     InmueblesModule,
     AsesoresModule,
     CiudadesModule,
-    AuthorizationModule,
-    UsuariosModule,],
-  controllers: [AppController, CiudadesController, AsesoresController, InmueblesController],
-  providers: [AppService, CiudadesService, InmueblesService, AsesoresService],
+    UsuariosModule,
+    AuthModule,
+  ],
+  controllers: [
+    AppController,
+    CiudadesController,
+    AsesoresController,
+    InmueblesController,
+  ],
+  providers: [
+    AppService,
+    CiudadesService,
+    InmueblesService,
+    AsesoresService,
+    UsuariosService,
+  ],
 })
-
-export class AppModule {
-
-}
+export class AppModule {}

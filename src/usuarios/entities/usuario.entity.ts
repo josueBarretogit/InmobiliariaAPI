@@ -5,7 +5,7 @@ export class Usuario {
   id: number;
 
   @Column({ type: 'varchar', length: 30, unique: true })
-  corre: string;
+  correo: string;
 
   @Column({ type: 'varchar', length: 30 })
   contrasena: string;

@@ -19,21 +19,21 @@ export class UsuariosService {
     return this.usuarioRepository.find();
   }
 
-  async findOne(id: number): Promise<Usuario> {
-    return this.usuarioRepository.findOneByOrFail({ id });
+  async findOne(correo: string): Promise<Usuario> {
+    return this.usuarioRepository.findOneByOrFail({ correo });
   }
 
   async update(
-    id: number,
+    correo: string,
     updateusuarioDto: UpdateUsuarioDto,
   ): Promise<Usuario> {
-    const usuarioToUpdate = await this.findOne(id);
+    const usuarioToUpdate = await this.findOne(correo);
     Object.assign(usuarioToUpdate, updateusuarioDto);
     return this.usuarioRepository.save(usuarioToUpdate);
   }
 
-  async remove(id: number): Promise<Usuario> {
-    const usuarioToRemove: Usuario = await this.findOne(id);
+  async remove(correo: string): Promise<Usuario> {
+    const usuarioToRemove: Usuario = await this.findOne(correo);
     return this.usuarioRepository.remove(usuarioToRemove);
   }
 }
