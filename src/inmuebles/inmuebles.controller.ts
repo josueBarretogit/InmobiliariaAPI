@@ -10,16 +10,18 @@ import {
   Req,
   Res,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { InmueblesService } from './inmuebles.service';
 import { CreateInmuebleDto } from './dto/create-inmueble.dto';
 import { UpdateInmuebleDto } from './dto/update-inmueble.dto';
 import { Request, Response } from 'express';
 import { Inmueble } from './entities/inmueble.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CiudadesService } from 'src/ciudades/ciudades.service';
 import { mapper } from 'src/automapper/automapper';
 import { AsesoresService } from 'src/asesores/asesores.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('Inmuebles')
 @Controller('inmuebles')
@@ -30,6 +32,8 @@ export class InmueblesController {
     private readonly asesorService: AsesoresService,
   ) {}
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Post('/create')
   async create(
     @Body() createInmuebleDto: CreateInmuebleDto,
@@ -81,6 +85,8 @@ export class InmueblesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   async findOne(
     @Param('id', ParseIntPipe) id: number,
@@ -97,6 +103,8 @@ export class InmueblesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -119,6 +127,8 @@ export class InmueblesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,

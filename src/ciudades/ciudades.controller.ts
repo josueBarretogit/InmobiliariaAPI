@@ -11,6 +11,7 @@ import {
   Next,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CiudadesService } from './ciudades.service';
 import { CreateCiudadeDto } from './dto/create-ciudade.dto';
@@ -18,13 +19,16 @@ import { UpdateCiudadeDto } from './dto/update-ciudade.dto';
 
 import { NextFunction, Request, Response } from 'express';
 import { Ciudad } from './entities/ciudades.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('Ciudades')
 @Controller('ciudades')
 export class CiudadesController {
   constructor(private ciudadesService: CiudadesService) {}
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Post('createCiudad')
   async create(
     @Body() createInmuebleDto: CreateCiudadeDto,
@@ -57,6 +61,8 @@ export class CiudadesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   async findOne(
     @Param('id') id: number,
@@ -73,6 +79,8 @@ export class CiudadesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -93,6 +101,8 @@ export class CiudadesController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,

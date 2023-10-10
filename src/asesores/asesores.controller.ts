@@ -11,19 +11,23 @@ import {
   Next,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { AsesoresService } from './asesores.service';
 import { CreateAsesoreDto } from './dto/create-asesore.dto';
 import { UpdateAsesoreDto } from './dto/update-asesore.dto';
 import { Request, Response } from 'express';
 import { Asesor } from './entities/asesores.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('Asesores')
 @Controller('asesores')
 export class AsesoresController {
   constructor(private readonly asesoresService: AsesoresService) {}
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Post('/createAsesor')
   async create(
     @Body() createAsesoreDto: CreateAsesoreDto,
@@ -57,6 +61,8 @@ export class AsesoresController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   async findOne(
     @Param('id') id: number,
@@ -73,6 +79,8 @@ export class AsesoresController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -94,6 +102,8 @@ export class AsesoresController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   async remove(
     @Param('id', ParseIntPipe) id: number,

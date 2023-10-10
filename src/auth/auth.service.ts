@@ -27,4 +27,10 @@ export class AuthService {
     const usuarioPayload = { id: usuario.id, correo: usuario.correo };
     return { access_token: await this.jwtService.signAsync(usuarioPayload) };
   }
+
+  async getProfile(correo: string): Promise<any> {
+    const usuario: Usuario = await this.usuarioService.findOne(correo);
+
+    return { usuario };
+  }
 }
