@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  GoneException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { Usuario } from './entities/usuario.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { throws } from 'assert';
 
 @Injectable()
 export class UsuariosService {
@@ -12,7 +18,16 @@ export class UsuariosService {
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
-    return this.usuarioRepository.save(createUsuarioDto);
+    try {
+      createUsuarioDto.contrasena = await bcrypt.hash(
+        createUsuarioDto.contrasena,
+        10,
+      );
+      return this.usuarioRepository.save(createUsuarioDto);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   async findAll(): Promise<Array<Usuario>> {
